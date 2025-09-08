@@ -5,7 +5,7 @@ title System Sequence Diagram
 
 participant TVN as TheraVision Console
 participant R as Robot
-participant MRIGTL  as MR IGTL Bridge
+participant MRIGT  as MR IGTL Bridge
 participant MRS as MR Scanner
 
 alt Start Up
