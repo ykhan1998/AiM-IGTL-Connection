@@ -1,4 +1,5 @@
 # AiM-IGTL-Connection
+```mermaid
 sequenceDiagram
 
 title System Sequence Diagram
