@@ -61,16 +61,10 @@ R->>TVN:STRING(measured_jv, [0.000000,1.475065,0.000000,0.000000,0.000000,0.0000
 R->>TVN:TRANSFORM(measured_cp, [-0.77  -0.64  -0.01  -24.03  -0.18  0.24  -0.95  42.82  0.61  -0.73  -0.30  108.96  0.00  0.00  0.00  1.00  ])
 R->>TVN:STRING(measured_jp, [-12.854989,-0.669000,0.015079,38.645623,1.121931,-12.369825,-5.473711,])
 end
+'''
 
-Note over TVN,R:
-    TVN = client; Robot = server.
-    Same LAN network.
-    Robot server: 192.168.88.250:18936
-    Scanner: 10.0.1.1:15002
-
-    Robot frontend - TVN IGTL MRTI.
-    TVN = client; Frontend = server.
-    Frontend on scanner + robot LANs.
+TVN to robot IGTL data and command connection. TVN is client, robot is server. Robot and TVN should under same LAN network. Server IP:192.168.88.250, server port:18936. Scanner server address:10.0.1.1, scanner port:15002
+Robot front end to TVN IGTL MRTI image connection. TVN is client, front end is server. Robot front end should both under scanner LAN and robot LAN. Server IP:10.0.1.229, server port:18944, aquisition rate:10
     Frontend server: 10.0.1.229:18944
     Acquisition rate: 10
 end note
