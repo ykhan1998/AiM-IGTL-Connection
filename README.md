@@ -67,4 +67,3 @@ TVN to robot IGTL data and command connection. TVN is client, robot is server. R
 Robot front end to TVN IGTL MRTI image connection. TVN is client, front end is server. Robot front end should both under scanner LAN and robot LAN. Server IP:10.0.1.229, server port:18944, aquisition rate:10
     Frontend server: 10.0.1.229:18944
     Acquisition rate: 10
-end note
