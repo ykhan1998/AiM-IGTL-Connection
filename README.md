@@ -68,7 +68,7 @@ Note over TVN,R:
     Robot server: 192.168.88.250:18936
     Scanner: 10.0.1.1:15002
 
-    Robot frontend ↔ TVN IGTL MRTI.
+    Robot frontend - TVN IGTL MRTI.
     TVN = client; Frontend = server.
     Frontend on scanner + robot LANs.
     Frontend server: 10.0.1.229:18944
