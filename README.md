@@ -63,11 +63,15 @@ R->>TVN:STRING(measured_jp, [-12.854989,-0.669000,0.015079,38.645623,1.121931,-1
 end
 
 Note over TVN,R:
-    TVN→Robot IGTL connection.<br/>
-    TVN=client, Robot=server.<br/>
-    Server IP:192.168.88.250, Port:18936.<br/>
-    Scanner IP:10.0.1.1, Port:15002.<br/><br/>
-    Robot front end→TVN IGTL MRTI.<br/>
-    TVN=client, Frontend=server.<br/>
-    Server IP:10.0.1.229, Port:18944.<br/>
-    Acquisition rate:10
+    TVN ↔ Robot IGTL data/command.
+    TVN = client; Robot = server.
+    Same LAN network.
+    Robot server: 192.168.88.250:18936
+    Scanner: 10.0.1.1:15002
+
+    Robot frontend ↔ TVN IGTL MRTI.
+    TVN = client; Frontend = server.
+    Frontend on scanner + robot LANs.
+    Frontend server: 10.0.1.229:18944
+    Acquisition rate: 10
+end note
