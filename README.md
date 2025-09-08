@@ -35,10 +35,10 @@ activate R
 activate TVN
 activate MRS
 MRS->>TVN:Registration DICOM image via TVN image server
-note left of TVN:⠀Auto generate registration matrix
+note left of TVN: Auto generate registration matrix
 TVN->>R:TRANSFORM(REGISTRATION, [ 1.00 -0.01 0.02 7.75   0.01 1.00 -0.02 -126.24   -0.02 0.02 1.00 27.91   0.00 0.00 0.00 1.00 ])
 MRS->>TVN:Patient DICOM image via TVN image server
-note left of TVN:⠀Select entry and target point
+note left of TVN: Select entry and target point
 TVN->>R:TRANSFORM(TARGET_POINT, [ 0.59 0.81 0.00 -17.62   0.05 -0.03 -1.00 -16.45   -0.80 0.59 -0.06 104.80   0.00 0.00 0.00 1.00   ])
 R->>TVN:POINT(target_point, [-17.62   -16.45   104.8])
 R->>TVN:STRING(desired_jp, [-38,2859,6,140524,330,-1361,-807,])
@@ -61,9 +61,7 @@ R->>TVN:STRING(measured_jv, [0.000000,1.475065,0.000000,0.000000,0.000000,0.0000
 R->>TVN:TRANSFORM(measured_cp, [-0.77  -0.64  -0.01  -24.03  -0.18  0.24  -0.95  42.82  0.61  -0.73  -0.30  108.96  0.00  0.00  0.00  1.00  ])
 R->>TVN:STRING(measured_jp, [-12.854989,-0.669000,0.015079,38.645623,1.121931,-12.369825,-5.473711,])
 end
-'''
+```
 
 TVN to robot IGTL data and command connection. TVN is client, robot is server. Robot and TVN should under same LAN network. Server IP:192.168.88.250, server port:18936. Scanner server address:10.0.1.1, scanner port:15002
 Robot front end to TVN IGTL MRTI image connection. TVN is client, front end is server. Robot front end should both under scanner LAN and robot LAN. Server IP:10.0.1.229, server port:18944, aquisition rate:10
-    Frontend server: 10.0.1.229:18944
-    Acquisition rate: 10
