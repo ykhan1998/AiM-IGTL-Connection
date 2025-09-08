@@ -63,7 +63,6 @@ R->>TVN:STRING(measured_jp, [-12.854989,-0.669000,0.015079,38.645623,1.121931,-1
 end
 
 Note over TVN,R:
-    TVN <<->> Robot IGTL data/command.
     TVN = client; Robot = server.
     Same LAN network.
     Robot server: 192.168.88.250:18936
