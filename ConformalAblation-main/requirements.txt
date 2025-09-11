@@ -1,0 +1,10 @@
+imutils==0.5.4
+matplotlib==3.4.3
+numpy==1.23.1
+pandas==1.4.3
+Pillow==10.2.0
+pydicom==2.3.0
+pyigtl==0.2.0
+PyYAML
+scipy==1.8.1
+tqdm==4.64.0

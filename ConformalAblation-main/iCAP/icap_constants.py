@@ -1,0 +1,3 @@
+CONFORMAL_ABLATION_DIR = r"/home/yiwei/ConformalAblation"
+
+ICAP_DIR = CONFORMAL_ABLATION_DIR + "/iCAP"
