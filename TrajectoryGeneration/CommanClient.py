@@ -18,7 +18,7 @@ class commandclient:
         cos_theta = np.clip(cos_theta, -1.0, 1.0)
         return np.arccos(cos_theta)  # radians
     
-    def transforms_close(self, T1, T2, tol_trans=1e-2, tol_rot=1e-2):
+    def transforms_close(self, T1, T2, tol_trans=1e-1, tol_rot=1e-1):
         """
         T1, T2: 4x4 homogeneous transforms
         tol_trans: meters (or your length unit)
@@ -31,28 +31,34 @@ class commandclient:
         trans_err = np.linalg.norm(t1 - t2)
         # Rotation geodesic error
         rot_err = self.rot_geodesic_angle(R1, R2)
+        print(trans_err,rot_err)
         return ((trans_err <= tol_trans) and (rot_err <= tol_rot))
     
     def connect(self):
         self.client = pyigtl.OpenIGTLinkClient(self.ip, self.port)
+        print('connected')
 
     def generateTimestamp(self):
-        return datetime.datetime.now().strftime("%H%M%S%f")
-    
+        return (int(datetime.datetime.now().timestamp()))
+
     def start_up(self):
-        i = 0
         msg = "START_UP"
         timeStamp = self.generateTimestamp()
         output_message = pyigtl.StringMessage(string=msg, timestamp=timeStamp, device_name='start_up')
         self.client.send_message(output_message)
-        while i<12:
-            message = self.client.get_latest_messages()
-            # Or we can wait for only the ones we want?
-            # message = self.client.wait_for_message("measured_cp")
-            print(message)
-            if message.device_name == "measured_cp":
-                self.current_cp = message.matrix
-            i += 1
+        print("Sent Message:Start_up")
+        message = self.client.wait_for_message("measured_cp")
+        self.current_cp = message.matrix
+        print("Received Message:measured_cp")
+        print(self.current_cp)
+        # Or we can get all the latest messages
+        # message = self.client.get_latest_messages()
+        # print(message)
+        # for m in message:
+        #     if m.device_name == "measured_cp":
+        #         self.current_cp = m.matrix
+        #         print(m)
+
 
     def image_listener(self, n_slice):
         self.image_list = []
@@ -74,23 +80,23 @@ class commandclient:
         #generate a 5s per step clock wise circle trajectory
         trajectory = []
         angles = np.linspace(0, 360, n_steps, endpoint=False)  # yaw angles in degrees
-        rot = self.current_cp[0:2, 0:2]
+        rot = R.from_matrix(self.current_cp[0:3, 0:3])
         for yaw in angles:
             # Relative yaw rotation around Z-axis
             R_yaw = R.from_euler('z', yaw, degrees=False)
             # Compose with starting orientation
             R_new = rot * R_yaw
-            T_new = self.current_cp
-            T_new[0:2, 0:2] = R_new
+            T_new = self.current_cp.copy()
+            T_new[0:3, 0:3] = R_new.as_matrix().tolist()
             trajectory.append(T_new)
-        timeMap = np.full(90, 5)
+        timeMap = np.full(90, 2)
         return trajectory, timeMap
     
     def rotate_tip(self, target):
         timeStamp = self.generateTimestamp()
-        output_message = pyigtl.TransformMessage(matrix=target, timestamp=timeStamp, device_name='TARGET_POINT')
-        self.client.send_message(output_message)
         while not self.transforms_close(self.current_cp, target):
+            output_message = pyigtl.TransformMessage(matrix=target, timestamp=timeStamp, device_name='TARGET_POINT')
+            self.client.send_message(output_message)
             message = self.client.wait_for_message("measured_cp")
             self.current_cp = message.matrix
 
@@ -134,6 +140,7 @@ class commandclient:
         self.start_up()
         trajectory,timeMap = self.generate_circle()
         for step, duration in zip(trajectory,timeMap):
+            print(step,duration)
             self.rotate_tip(step)
             time.sleep(duration)
         self.insert_tip(0.5)
